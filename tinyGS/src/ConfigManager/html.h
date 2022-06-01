@@ -41,8 +41,8 @@ const char BOARD_NAMES[][BOARD_NAME_LENGTH] PROGMEM =
   "Custom ESP32 Wroom + SX126x DRF1268T (TCX0) (5, 2, 26, 13)", 
   "Custom ESP32 Wroom + SX126x DRF1268T (TCX0) (5, 26, 14, 12)",
   "433MHz T-BEAM V1.0 + OLED" ,
-  "433MHz FOSSA 1W Ground Station",
-  "868-915MHz FOSSA 1W Ground Station",
+  "433MHz E22 1W  SX1262",
+  "433MHz E22 1W  SX1268",
   "2.4GHz ESP32 + SX1280",
   "868-915MHzT-BEAM V1.0 + OLED",
 };

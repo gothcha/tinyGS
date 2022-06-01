@@ -133,6 +133,13 @@ void setup()
   Serial.begin(115200);
   delay(100);
 
+  pinMode(21,OUTPUT); // Ext Vcc control
+  digitalWrite(21,LOW); // Ext Vcc ON
+  adcAttachPin(37); // Battery voltage
+  pinMode(13,INPUT_PULLUP); // Clear packet button
+  pinMode(26,INPUT_PULLUP); // Transmit button
+  pinMode(12,OUTPUT);       // New packet LED
+
   Log::console(PSTR("TinyGS Version %d - %s"), status.version, status.git_version);
   configManager.setWifiConnectionCallback(wifiConnected);
   configManager.setConfiguredCallback(configured);
@@ -209,6 +216,11 @@ void loop() {
   mqtt.loop();
   OTA::loop();
   if (configManager.getOledBright() != 0) displayUpdate();
+   if (!digitalRead(13)) 
+  {
+    digitalWrite(12,LOW); // reset new packet LED
+  }
+  checkTXButton();  
 }
 
 void setupNTP()
@@ -246,6 +258,27 @@ void checkButton()
     if (elapsedTime > 30 && elapsedTime < 1000) // short press
       displayNextFrame();
     buttPressedStart = 0;
+  }
+}
+
+void checkTXButton()
+{
+  static unsigned long buttPressedStart = 0;
+  if (!digitalRead(26))
+  {
+    if (!buttPressedStart)
+    {
+      buttPressedStart = millis();
+    }
+  }
+  else {
+    unsigned long elapsedTime = millis() - buttPressedStart;
+    if (elapsedTime > 30 && buttPressedStart) // valid press
+    {   
+        radio.sendTestPacket();
+        Log::console(PSTR("Sending test packet"));      
+        buttPressedStart = 0;
+    }
   }
 }
 

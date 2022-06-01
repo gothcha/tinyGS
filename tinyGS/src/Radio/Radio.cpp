@@ -224,8 +224,11 @@ uint8_t Radio::listen()
   status.lastPacketInfo.snr = newPacketInfo.snr;
   status.lastPacketInfo.frequencyerror = newPacketInfo.frequencyerror;
 
+digitalWrite(12,HIGH);  // New Packet
+
   // print RSSI (Received Signal Strength Indicator)
-  Log::console(PSTR("[SX12x8] RSSI:\t\t%f dBm\n[SX12x8] SNR:\t\t%f dB\n[SX12x8] Frequency error:\t%f Hz"), status.lastPacketInfo.rssi, status.lastPacketInfo.snr, status.lastPacketInfo.frequencyerror);
+ // Log::console(PSTR("[SX12x8] RSSI:\t\t%f dBm\n[SX12x8] SNR:\t\t%f dB\n[SX12x8] Frequency error:\t%f Hz"), status.lastPacketInfo.rssi, status.lastPacketInfo.snr, status.lastPacketInfo.frequencyerror);
+  Log::console(PSTR("Packet - RSSI:\t%f dBm\tSNR:\t%f dB\tFrequency error:\t%f Hz"), status.lastPacketInfo.rssi, status.lastPacketInfo.snr, status.lastPacketInfo.frequencyerror);
 
   if (state == RADIOLIB_ERR_NONE && respLen > 0)
   {
